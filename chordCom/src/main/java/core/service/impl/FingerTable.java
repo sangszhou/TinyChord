@@ -64,7 +64,7 @@ public class FingerTable {
         if (overwrittenNode == null) {
             logger.info("unsetEntry didnot change anything, because its null before");
         } else {
-            overwrittenNode.disconnect();
+            references.disconnectIfUnReferenced(overwrittenNode);
         }
     }
 
@@ -111,17 +111,15 @@ public class FingerTable {
 
             if (getEntry(i) == null) {
                 setEntry(i, proxy);
-
             } else if (proxy.getId().isInInterval(this.localID, getEntry(i).getId())) {
                 // why not using compare to?
                 Node oldEntry = getEntry(i);
                 setEntry(i, proxy);
                 //@error, need to check
-                oldEntry.disconnect();
+                references.disconnectIfUnReferenced(oldEntry);
             }
         }
     }
-
 
     void removeNode(Node node) throws CommunicationException {
         if (node == null) {

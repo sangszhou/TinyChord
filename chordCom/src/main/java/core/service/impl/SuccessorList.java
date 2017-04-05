@@ -19,14 +19,13 @@ public class SuccessorList {
     private int capacity;
     private References references;
     // why successor need entries at all
-    private Entries entries;
     private Logger logger;
 
-    SuccessorList(ID localID, int numberOfEntries, References parent, Entries entries) {
+    SuccessorList(ID localID, int numberOfEntries, References parent) {
         this.logger = LoggerFactory.getLogger(SuccessorList.class + "." + localID);
         this.logger.debug("Logger initialized.");
 
-        if (localID == null || parent == null || entries == null) {
+        if (localID == null || parent == null) {
             NullPointerException e = new NullPointerException("Neither paremeter of this constructor may have value " + "null!");
             this.logger.error("Null pointer", e);
             throw e;
@@ -39,7 +38,6 @@ public class SuccessorList {
         this.capacity = numberOfEntries;
         this.successors = new LinkedList<>();
         this.references = parent;
-        this.entries = entries;
     }
 
     final int getCapacity() {
@@ -97,7 +95,6 @@ public class SuccessorList {
     public final List<Node> getReferences() {
         return Collections.unmodifiableList(this.successors);
     }
-
 
 
 //    void addSuccessor(Node nodeToAdd) throws CommunicationException {

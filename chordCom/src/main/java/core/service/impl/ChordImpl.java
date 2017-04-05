@@ -2,6 +2,7 @@ package core.service.impl;
 
 import core.com.Node;
 import core.com.impl.NodeImpl;
+import core.com.impl.Nodes;
 import core.data.ID;
 import core.data.URL;
 import core.service.Chord;
@@ -21,15 +22,19 @@ public class ChordImpl implements Chord{
     References references;
     URL localUrl;
     ID localId;
-    Logger logger;
-
+    Logger logger = LoggerFactory.getLogger(getClass());
 
     //@todo read from config
     private int NUM_OF_SUCCESSORS = 1;
 
     public ChordImpl() {
-        this.logger = LoggerFactory.getLogger(getClass());
         logger.info("chord impl inited");
+    }
+
+    public ChordImpl(ID localId, URL localUrl) {
+        logger.info("chord impl inited");
+        this.localId = localId;
+        this.localUrl = localUrl;
     }
 
     @Override
@@ -60,13 +65,12 @@ public class ChordImpl implements Chord{
         setURL(localURL);
 
         // set entry to null because don't know why entries are needed here
-        this.references = new References(localId, localUrl, NUM_OF_SUCCESSORS, null);
+        this.references = new References(localId, localUrl, NUM_OF_SUCCESSORS);
         this.localNode = new NodeImpl(localId, localUrl);
 
         // 开始提供别的节点的接入服务, 自己作为集群中的一个节点
         localNode.acceptEntries();
-        // 此时的 fingerTable 都是空的
-
+        // 此时的 fingerTable 还是空的
     }
 
 
@@ -84,10 +88,14 @@ public class ChordImpl implements Chord{
         setID(localID);
         setURL(localURL);
 
-        this.references = new References(localId, localUrl, NUM_OF_SUCCESSORS, null);
+        this.references = new References(localId, localUrl, NUM_OF_SUCCESSORS);
         this.localNode = new NodeImpl(localId, localUrl);
 
-        Node bootstrapNode;
+        try {
+
+        }
+
+        Node bootstrapNode = Nodes.createNode(localURL, bootstrapURL);
 
         bootstrapNode = Nodes
 

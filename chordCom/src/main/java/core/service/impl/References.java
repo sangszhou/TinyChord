@@ -15,19 +15,18 @@ import java.util.*;
  * and successorList individually or make reference a wrapper and use that wrapper
  */
 public class References {
-
     private Logger logger;
     private FingerTable fingerTable = null;
     private SuccessorList successorList = null;
     private Node predecessor = null;
     private ID localID = null;
     private URL localURL = null;
-    private Entries entries;
 
-    public References(ID localID, URL localURL, int numOfEntriesInSuccessorList, Entries entries) {
-        if (localID == null || localURL == null || entries == null) {
+    public References(ID localID, URL localURL, int numOfEntriesInSuccessorList) {
+        if (localID == null || localURL == null) {
             logger.error("failed to init because argument is null");
         }
+
         if (numOfEntriesInSuccessorList < 1) {
             logger.error("success list must be bigger than 1");
         }
@@ -35,9 +34,8 @@ public class References {
         this.logger = LoggerFactory.getLogger(getClass());
         this.localID = localID;
         this.localURL = localURL;
-        this.entries = entries;
         this.fingerTable = new FingerTable(localID, this);
-        this.successorList = new SuccessorList(localID, numOfEntriesInSuccessorList, this, entries);
+        this.successorList = new SuccessorList(localID, numOfEntriesInSuccessorList, this);
     }
 
     // local search
@@ -94,5 +92,9 @@ public class References {
 
     }
 
+
+    public void disconnectIfUnReferenced(Node node) {
+
+    }
 
 }

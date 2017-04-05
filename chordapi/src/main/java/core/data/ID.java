@@ -9,13 +9,12 @@ import java.util.Arrays;
 public interface ID extends Serializable, Comparable<ID> {
 
     // since the cluster size is small, 2^16 should be enough
+    // small size is test friendly
     int size = 16;
 
     ID addPowerOfTwo(int powerOfTwo);
 
     boolean isInInterval(ID from, ID to);
-
-
 
 //    private static final long serialVersionUID = 1L;
 //    private byte[] payload;
